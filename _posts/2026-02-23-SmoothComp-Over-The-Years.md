@@ -32,7 +32,7 @@ incomplete results, including private events and matches without a recorded winn
 
 ## How Many Events Are There?
 
-![Monthly Volume]({{ '/assets/images/2026-02-23/fig01-total-Match-Overview.png' | relative_url }})
+![Monthly Volume]({{ 'assets/images/2026-02-23/fig01-total-Match-Overview.png' | absolute_url }})
 
 The chart shows the number of events by month, average number of matches per event, as well as a 12 month rolling averages to show the overall trend. Aside from the pandemic years, 
 the number of competitions have increased steadily over time reaching over 80 competitions a month. The average number of matches per event usually sits around 400 matches, but has 
@@ -48,7 +48,7 @@ going forward.
 
 ## What Skill Levels are Most Popular?
 
-![Skill Distribution]({{ '/assets/images/2026-02-23/fig02-matches-by-skill.png' | relative_url }})
+![Skill Distribution]({{ 'assets/images/2026-02-23/fig02-matches-by-skill.png' | absolute_url }})
 
 **NOTE:** This visualization includes only adult divisions. Youth belt and skill classifications are structured differently and have proven difficult to standardize reliably 
 within the dataset (I'm working on it).
@@ -69,7 +69,7 @@ size differences in competitors plays in gi vs no-gi matches.
 
 ## Who are the biggest Federations?
 
-![Skill Distribution]({{ '/assets/images/2026-02-23/fig03-top10-federations.png' | relative_url }})
+![Skill Distribution]({{ 'assets/images/2026-02-23/fig03-top10-federations.png' | absolute_url }})
 
 A federation is an organizing body or promotion that manages and sanctions multiple grappling events under a shared brand, rule set, and competitive structure.
 Over half of all events and matches are hosted by federations. **Grappling Industries** is by far the largest federation, hosting over 800 events in 10 years and holds the 
@@ -91,14 +91,14 @@ give you many matches if you keep winning.
 
 ## How Popular Are Youth and Master Divisions? 
 
-![Age Distribution]({{ '/assets/images/2026-02-23/fig04-matches-by-age-style.png' | relative_url }})
+![Age Distribution]({{ 'assets/images/2026-02-23/fig04-matches-by-age-style.png' | absolute_url }})
 
 In youth and masters divisions, the Gi remains more popular, making up 60% and 58% of total matches for youth and masters divisions, respectively.  The adult division tips the scale slightly
 in favor of no-gi, composing 52% of total matches.
 
 ### Is the Gi Dying?
 
-![Matches by Style]({{ '/assets/images/2026-02-23/fig05-matches-by-style-month.png' | relative_url }})
+![Matches by Style]({{ 'assets/images/2026-02-23/fig05-matches-by-style-month.png' | absolute_url }})
 
 Nope, it sure aint.  The gi has remained slightly more popular than no-gi since the beginning, but that gap has narrowed in the last year. This chart includes all matches regardless
 of age. The previous chart showed that no-gi is slightly more popular than gi in the adult division.
