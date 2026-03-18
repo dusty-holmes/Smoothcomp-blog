@@ -3,6 +3,7 @@ layout: page
 title: Categories
 date: 2023-01-01
 permalink: /categories/
+order: 6
 ---
 
 <ul class="category-list">

@@ -26,6 +26,11 @@ description: >- # used by seo meta and the atom feed
 url: "https://dusty-holmes.github.io"
 baseurl: "/Smoothcomp-blog"
 
+author:
+  name: Dusty Holmes
+  bio: Data engineering + analytics projects focused on jiu-jitsu competition data.
+  location: Minnesota
+
 github:
   username: dusty-holmes 
 
