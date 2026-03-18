@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "1. An Overview of Smoothcomp"
+title:  "An Overview of Smoothcomp"
 date:   2026-02-23 
-categories: jekyll update
+categories: overview demographics introduction
 ---
 # Smoothcomp Over The Years
 

@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "2. How Can We Improve Win Rates"
+title:  "How Can We Improve Win Rates"
 date:   2026-03-05 
-categories: jekyll update
+categories: win-rates improvement
 ---
 # How Can We Improve Win Rates?
 
