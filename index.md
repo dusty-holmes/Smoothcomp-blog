@@ -13,7 +13,7 @@ This blog documents:
 - Data engineering workflows (dbt, AWS, scraping)
 
 👉 Start with:
-- [An Overview of Smoothcomp Data](/Smoothcomp-blog/posts/SmoothComp-Over-The-Years/)
-- [Latest Analysis](/Smoothcomp-blog/posts/)
+- [An Introduction and Overview of Smoothcomp Data](/Smoothcomp-blog/posts/SmoothComp-Over-The-Years/)
+- [Construction of the Data Pipeline](/Smoothcomp-blog/posts/tech-stack/)
 
 ---
