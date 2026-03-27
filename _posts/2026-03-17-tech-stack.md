@@ -185,4 +185,4 @@ Short section showing how Jupyter Notebooks are currently used to read from gold
 covering historical plots that won't change, but will move to an orchestration like Airflow or Dagster when charts will need to be refreshed with updated data.
 
 ## Delivering Results
-Talk about the format of the blog and using Jekyll and github pages.
+TODO: Talk about the format of the blog and using Jekyll and github pages.
