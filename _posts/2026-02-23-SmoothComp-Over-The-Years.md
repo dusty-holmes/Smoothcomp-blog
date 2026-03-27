@@ -1,10 +1,9 @@
 ---
 layout: post
-title:  "An Overview of Smoothcomp"
+title:  "A Historical Overview of Smoothcomp"
 date:   2026-02-23 
 categories: overview demographics introduction
 ---
-# Smoothcomp Over The Years
 
 ## Introduction
 Smoothcomp has become one of the primary platforms for organizing and registering Brazilian Jiu-Jitsu competitions around the world. Over more than a decade of operation, 

@@ -1,0 +1,54 @@
+---
+---
+
+/* ==============================
+   IMAGE STYLING FOR POSTS
+   ============================== */
+
+/* Center images and figures */
+.post-content img,
+.post-content figure,
+.image-center img,
+.image-center figure {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Borders, padding, and shadows for screenshots/diagrams */
+.post-content img,
+.image-center img {
+  border: 1px solid #ccc;       /* light gray border */
+  border-radius: 6px;           /* slightly rounded corners */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* subtle shadow */
+  padding: 2px;
+}
+
+/* Figure captions */
+.post-content figcaption,
+.image-center figcaption {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.3rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Space above/below figures */
+.post-content figure,
+.image-center figure {
+  margin: 1em 0;
+}
+
+/* Responsive tweaks for mobile */
+@media (max-width: 768px) {
+  .post-content img,
+  .post-content figure,
+  .image-center img,
+  .image-center figure {
+    width: 100%;
+    max-width: 100%;
+  }
+}
