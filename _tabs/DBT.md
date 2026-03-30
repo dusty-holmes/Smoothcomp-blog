@@ -1,7 +1,12 @@
 ---
-layout: redirect
+layout: page
 title: DBT Documentation
-icon: book
-redirect_to: /DBT-Documentation/index.html
+icon: fas fa-database
 order: 4
 ---
+The DBT documentation will open on another tab in the browser.  If pop-ups are blocked, click the link here instead:
+<script>window.location.href = "/Smoothcomp-blog/DBT-Documentation/index.html";</script>
+
+<script>
+  window.open("/Smoothcomp-blog/DBT-Documentation/index.html", "_blank");
+</script>
