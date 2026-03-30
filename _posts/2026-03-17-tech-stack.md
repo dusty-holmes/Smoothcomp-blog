@@ -204,23 +204,43 @@ handles transforming raw data into deliverable tables that feed into final visua
 
 ## Transforming raw records with DBT
 
+
+
+<figure class="screenshot">
+  <img src="{{ 'assets/images/2026-03-17/dbt-graph.png' | absolute_url }}" alt="A directed graph showing tables in DBT.">
+  <figcaption>
+    DBT creates a documenation website that lets you explore the definitions of every table, as well as a graph showing the dependencies of each table.
+  </figcaption>
+</figure>
+
+
 Once raw event and match records are loaded into AWS Athena tables, DBT (Data Build Tool) is used to transform these records into structured, aggregated, and summarized tables that are ready for analysis and visualization.
 
 DBT organizes transformations into three layers:
 
-**Bronze**: Contains raw tables imported from Athena, including matches, events, and dimension tables for athletes, clubs, and federations. These tables mirror the raw data but are cleaned and typed for downstream use.
+* **Bronze**: Contains raw tables imported from Athena, including matches, events, and dimension tables for athletes, clubs, and federations. These tables mirror the raw data but are cleaned and typed for downstream use.
 
-**Silver**: Contains intermediate transformations that roll up or combine data from multiple bronze tables. For example, aggregating match statistics by athlete, club, or event.
+* **Silver**: Contains intermediate transformations that roll up or combine data from multiple bronze tables. For example, aggregating match statistics by athlete, club, or event.
 
-**Gold**: Contains the final, summarized tables that feed directly into Jupyter notebooks for plotting and analysis. Each gold table corresponds to a specific visualization or blog post.
-
-[Explore DBT Model Documentation Here](/Smoothcomp-blog/DBT-Documentation/index.html)
+* **Gold**: Contains the final, summarized tables that feed directly into Jupyter notebooks for plotting and analysis. Each gold table corresponds to a specific visualization or blog post.
 
 The documentation site shows all models, their lineage, and table descriptions, making it easy to understand how data flows from raw HTML files to final visualizations.
+
+[Explore DBT Model Documentation Here.](/Smoothcomp-blog/DBT-Documentation/index.html)
+
 
 ## Importing and Plotting
 Short section showing how Jupyter Notebooks are currently used to read from gold tables to create visualizations.  Talk about how this works for charts 
 covering historical plots that won't change, but will move to an orchestration like Airflow or Dagster when charts will need to be refreshed with updated data.
 
+
+Once the gold-level tables are available in Athena, Jupyter Notebooks are used to import the data and create visualizations. 
+Each notebook connects directly to the Athena tables using Python, pulling the structured datasets into a pandas DataFrame. 
+From there, matplotlib and seaborn are used to generate charts and plots that reveal trends across events, athletes, and match statistics.
+
+This workflow allows for flexible analysis: some charts are historical and static, while others are updated weekly as new match data is added. Notebooks can filter, aggregate, and pivot the gold-level data to create plots such as win rates by skill level, submission types over time, or event participation trends.
+
 ## Delivering Results
-TODO: Talk about the format of the blog and using Jekyll and github pages.
+Visualizations are then embedded into blog posts to communicate insights in a clear and accessible way. The site is built using Jekyll and hosted via GitHub Pages, which allows the content to be easily updated as new analyses are generated.
+
+By combining Athena for querying, DBT for transformations, and Jupyter for visualization, the workflow ensures that every plot is reproducible and traceable back to the raw data. This makes it easy to maintain the site, update analyses, and share insights with readers or stakeholders, such as hiring managers reviewing the data pipeline and analytical capabilities.
