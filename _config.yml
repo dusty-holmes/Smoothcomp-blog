@@ -8,6 +8,11 @@ theme: jekyll-theme-chirpy
 # otherwise, the layout language will use the default value of 'en'.
 lang: en
 
+# Include DBT documentation
+include:
+  - "DBT-Documentation"
+
+
 # Change to your timezone › https://zones.arilyn.cc
 timezone:
 

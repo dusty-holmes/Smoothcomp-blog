@@ -105,7 +105,13 @@ the image to AWS whenever the repository is updated.  From there, the scraper ca
 
 An example of the events search page looks like this:
 
-![event search results]({{ 'assets/images/2026-03-17/event-search-results.png' | absolute_url }})
+<figure class="screenshot">
+    <img src="{{ 'assets/images/2026-03-17/event-search-results.png' | absolute_url }}" alt="">
+    <figcaption>
+        Each event is recorded from the description on each event card displayed here.
+    </figcaption>
+</figure>
+
 
 This project will filter results to only include Jiu-Jitsu matches in the USA from year 2017 and beyond.
 **BeautifulSoup** is used to process each web page and extract event and match records. 
@@ -119,7 +125,13 @@ Each event card on the website will be a record containing:
 
 After processing each event, the matches from each event are scraped and processed.
 
-![event search results]({{ 'assets/images/2026-03-17/match-results.png' | absolute_url }})
+<figure class="screenshot">
+    <img src="{{ 'assets/images/2026-03-17/match-results.png' | absolute_url }}" alt="">
+    <figcaption>
+        Each match is recorded with attributes found within the grey rectangle and the description above each box.
+    </figcaption>
+</figure>
+
 
 From each match, we gather:
 * The names and athlete ID's of both competitors
@@ -135,12 +147,24 @@ From each match, we gather:
 ### Errors
 For events from established federations like Grappling Industries, parsing match attributes is more obvious, but that isn't always the case for other events.
 For example, these matches were **<u>not</u>** included because there is no labelled winner:
-![matches no winner]({{ 'assets/images/2026-03-17/match-results-no-winners.png' | absolute_url }})
+<figure class="screenshot">
+    <img src="{{ 'assets/images/2026-03-17/match-results-no-winners.png' | absolute_url }}" alt="Matches with no defined winner">
+    <figcaption>
+        These matches never had a winner declared, so they are not included in the dataset.
+    </figcaption>
+</figure>
+
 
 When a match has two competitors and a defined winner, it is included even if some of the match attributes are missing.  
 For example, these matches are included, but do not list a style of gi or no-gi in the match:
 
-![matches no style]({{ 'assets/images/2026-03-17/match-results-no-style.png' | absolute_url }})
+<figure class="screenshot">
+    <img src="{{ 'assets/images/2026-03-17/match-results-no-style.png' | absolute_url }}" alt="">
+    <figcaption>
+        These matches do not specify whether it is a gi or no-gi match.
+    </figcaption>
+</figure>
+
 
 These matches happen to be from an ADCC event which is exclusively no-gi. 
 Because of the size of ADCC, additional logic was coded into the parsing process so that ADCC events are labelled correctly, but additional work needs to be done
@@ -154,31 +178,45 @@ The scraping pipeline is containerized by adding a dockerfile, and is automatica
 An ECS task definition defines the runtime configuration for the container, including compute resources, environment variables, and AWS permissions. 
 The task is then executed on AWS Fargate, which runs the container without managing servers.
 
-
-<figure class="image-center">
+<figure class="screenshot">
   <img src="{{ 'assets/images/2026-03-17/github-actions-deploy.png' | absolute_url }}" alt="GitHub Actions deployment history">
   <figcaption>
     Each commit to GitHub automatically rebuilds and pushes the Docker image to AWS ECR.
   </figcaption>
 </figure>
 
-
 After all of the initial setup, jobs can be triggered manually or scheduled, and logs are streamed to CloudWatch for monitoring.
 
 ## Storing records
 HTML files are saved as-is to allow re-processing when necessary. BeautifulSoup is used to parse HTML files and create a parquet file for each HTML file.
 After, parquet files are combined by year and saved in an **events** or **matches** folder.  
+
+<figure class="screenshot">
+  <img src="{{ 'assets/images/2026-03-17/s3-matches-bucket.png' | absolute_url }}" alt="A list of files in the matches subfolder.">
+  <figcaption>
+    Every match is rolled into separate files by year, but the entire folder is combined in AWS Athena to create the Matches SQL table.
+  </figcaption>
+</figure>
 All events and matches are saved in their own subfolder so AWS Athena and Glue can use the entire contents of the folder to create a table that can be queried with Athena.
 Athena does have a query editor to allow writing SQL against each bucket for testing purposes, but DBT in VSCode 
 handles transforming raw data into deliverable tables that feed into final visualizations.
 
 
 ## Transforming raw records with DBT
-* show diagram of all tables using DBT documentation
-* talk about the bronze, silver, gold subfolders in DBT. 
-Bronze holds matches, events, and dim tables.  
-Silver holds transformations rolled up at different levels.
-Gold has 1 subfolder for each final blog post.
+
+Once raw event and match records are loaded into AWS Athena tables, DBT (Data Build Tool) is used to transform these records into structured, aggregated, and summarized tables that are ready for analysis and visualization.
+
+DBT organizes transformations into three layers:
+
+**Bronze**: Contains raw tables imported from Athena, including matches, events, and dimension tables for athletes, clubs, and federations. These tables mirror the raw data but are cleaned and typed for downstream use.
+
+**Silver**: Contains intermediate transformations that roll up or combine data from multiple bronze tables. For example, aggregating match statistics by athlete, club, or event.
+
+**Gold**: Contains the final, summarized tables that feed directly into Jupyter notebooks for plotting and analysis. Each gold table corresponds to a specific visualization or blog post.
+
+[Explore DBT Model Documentation Here](/Smoothcomp-blog/DBT-Documentation/index.html)
+
+The documentation site shows all models, their lineage, and table descriptions, making it easy to understand how data flows from raw HTML files to final visualizations.
 
 ## Importing and Plotting
 Short section showing how Jupyter Notebooks are currently used to read from gold tables to create visualizations.  Talk about how this works for charts 

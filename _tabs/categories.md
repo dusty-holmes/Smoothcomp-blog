@@ -15,3 +15,5 @@ order: 6
     </li>
   {% endfor %}
 </ul>
+
+[Explore DBT Model Documentation Here](/Smoothcomp-blog/DBT-Documentation/index.html)
