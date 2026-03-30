@@ -12,6 +12,8 @@ lang: en
 include:
   - "DBT-Documentation"
 
+# remove categories item from sidebar
+categories: false
 
 # Change to your timezone › https://zones.arilyn.cc
 timezone:
