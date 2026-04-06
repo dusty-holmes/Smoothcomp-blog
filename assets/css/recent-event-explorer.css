@@ -1,0 +1,184 @@
+/* =========================
+   Shared table styling
+   ========================= */
+
+#recent-events-table table,
+#event-summary-table table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+#recent-events-table,
+#event-summary-table .table-scroll {
+  max-height: 750px;
+  overflow-y: auto;
+}
+
+
+#recent-events-table th,
+#recent-events-table td,
+#event-summary-table th,
+#event-summary-table td {
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+/* Header styling for both tables */
+#recent-events-table thead th,
+#event-summary-table thead th {
+  background-color: #f8fafc;
+  color: #111827;
+  font-weight: 600;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Sticky headers only for event summary table */
+#event-summary-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Very subtle striping for both tables */
+#recent-events-table tbody tr:nth-child(even),
+#event-summary-table tbody tr:nth-child(even) {
+  background-color: rgba(65, 77, 105, 0.10);
+}
+
+/* Keep text readable on all normal rows */
+#recent-events-table tbody tr,
+#event-summary-table tbody tr {
+  color: #d1d2d3;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+/* Hover styling for both tables */
+#recent-events-table tbody tr:hover,
+#event-summary-table tbody tr:hover {
+  background-color: rgba(132, 179, 255, 0.103);
+  cursor: pointer;
+}
+
+/* Selected row styling for both tables */
+#recent-events-table tbody tr.selected,
+#event-summary-table tbody tr.selected {
+  background-color: rgba(59, 130, 246, 0.16);
+  color: #0f172a;
+}
+
+/* Ensure text inside selected rows stays dark/readable */
+#recent-events-table tbody tr.selected td,
+#event-summary-table tbody tr.selected td {
+  color: #0f172a;
+}
+
+/* =========================
+   Recent Events table
+   ========================= */
+
+#recent-events-table th,
+#recent-events-table td {
+  text-align: left;
+}
+
+/* Date */
+#recent-events-table th:nth-child(1),
+#recent-events-table td:nth-child(1) {
+  width: 50px;
+  white-space: nowrap;
+  padding-right: 24px;
+}
+
+/* Title */
+#recent-events-table th:nth-child(2),
+#recent-events-table td:nth-child(2) {
+  width: 60%;
+}
+
+/* Location */
+#recent-events-table th:nth-child(3),
+#recent-events-table td:nth-child(3) {
+  width: 35%;
+}
+
+/* Matches */
+#recent-events-table th:nth-child(4),
+#recent-events-table td:nth-child(4) {
+  width: 70px;
+  min-width: 70px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Prevent long text from breaking layout */
+#recent-events-table td:nth-child(2),
+#recent-events-table td:nth-child(3) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================
+   Event Summary table
+   ========================= */
+
+/* Club column */
+#event-summary-table th:nth-child(1),
+#event-summary-table td:nth-child(1) {
+  width: 30%;
+  text-align: left;
+  font-weight: 600;
+}
+
+/* Matches column */
+#event-summary-table th:nth-child(2),
+#event-summary-table td:nth-child(2) {
+  width: 15%;
+}
+
+/* Numeric columns centered except score */
+#event-summary-table th:nth-child(2),
+#event-summary-table th:nth-child(3),
+#event-summary-table th:nth-child(4),
+#event-summary-table th:nth-child(5),
+#event-summary-table th:nth-child(6),
+#event-summary-table td:nth-child(2),
+#event-summary-table td:nth-child(3),
+#event-summary-table td:nth-child(4),
+#event-summary-table td:nth-child(5),
+#event-summary-table td:nth-child(6),
+#event-summary-table td:nth-child(7) {
+  text-align: center;
+}
+
+/* Score column */
+#event-summary-table th:nth-child(8),
+#event-summary-table td:nth-child(8) {
+  width: 90px;
+  text-align: right;
+  font-weight: 700;
+}
+
+/* Header wrapping */
+#event-summary-table th {
+  white-space: normal;
+  line-height: 1.2;
+  font-size: 0.9rem;
+}
+
+/* Truncate long club names */
+#event-summary-table td:nth-child(1) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#selected-event-label.event-summary-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 12px 0 8px 0;
+}
