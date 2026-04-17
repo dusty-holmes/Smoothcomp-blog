@@ -63,7 +63,7 @@ toc: false
 
 <script>
   window.recentEventExplorerConfig = {
-    dataRoot: "{{ '/assets/data/recent_event_explorer' | relative_url }}",
+    recentEventsPath: "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json",
     eventSummaryBaseUrl: "{{ '/dashboards/event-summary/' | relative_url }}"
   };
 </script>

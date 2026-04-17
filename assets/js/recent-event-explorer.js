@@ -1,7 +1,10 @@
 (function () {
   const config = window.recentEventExplorerConfig || {};
-  const dataRoot = config.dataRoot || "/assets/data/recent_event_explorer";
-  const eventSummaryBaseUrl = config.eventSummaryBaseUrl || "/dashboards/event-summary/";
+  const recentEventsPath =
+    config.recentEventsPath ||
+    "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json";
+  const eventSummaryBaseUrl =
+    config.eventSummaryBaseUrl || "/dashboards/event-summary/";
 
   const elements = {
     table: document.getElementById("recent-events-table"),
@@ -11,8 +14,6 @@
     kpiEvents: document.getElementById("kpi-events"),
     kpiMatches: document.getElementById("kpi-matches")
   };
-
-  console.log("federation filter element:", elements.federationFilter);
 
   const state = {
     allEvents: [],
@@ -111,20 +112,24 @@
 
     const previousValue = elements.federationFilter.value || "all";
 
-    const federations = [...new Set(
-      events
-        .map((event) => (event.federation || "").trim())
-        .filter(Boolean)
-    )].sort((a, b) => a.localeCompare(b));
+    const federations = [
+      ...new Set(
+        events
+          .map((event) => (event.federation || "").trim())
+          .filter(Boolean)
+      )
+    ].sort((a, b) => a.localeCompare(b));
 
     elements.federationFilter.innerHTML = `
       <option value="all">All</option>
       ${federations
-        .map((federation) => `
+        .map(
+          (federation) => `
           <option value="${escapeHtml(federation)}">
             ${escapeHtml(federation.toUpperCase())}
           </option>
-        `)
+        `
+        )
         .join("")}
     `;
 
@@ -154,13 +159,13 @@
         return `
           <tr>
             <td class="date-cell">${escapeHtml(formatDate(event.date))}</td>
-              <td class="event-name-cell">
-                <a class="event-link cell-ellipsis"
-                  href="${eventUrl}"
-                  title="${escapeHtml(event.title || "Unnamed Event")}">
-                  ${escapeHtml(event.title || "Unnamed Event")}
-                </a>
-              </td>
+            <td class="event-name-cell">
+              <a class="event-link cell-ellipsis"
+                href="${eventUrl}"
+                title="${escapeHtml(event.title || "Unnamed Event")}">
+                ${escapeHtml(event.title || "Unnamed Event")}
+              </a>
+            </td>
             <td class="location-cell">
               <span class="cell-ellipsis" title="${escapeHtml(event.location || "—")}">
                 ${escapeHtml(event.location || "—")}
@@ -196,9 +201,15 @@
   }
 
   function filterEvents() {
-    const query = elements.search ? (elements.search.value || "").trim().toLowerCase() : "";
-    const federationValue = elements.federationFilter ? elements.federationFilter.value : "all";
-    const sortValue = elements.sort ? elements.sort.value : "event_date_desc";
+    const query = elements.search
+      ? (elements.search.value || "").trim().toLowerCase()
+      : "";
+    const federationValue = elements.federationFilter
+      ? elements.federationFilter.value
+      : "all";
+    const sortValue = elements.sort
+      ? elements.sort.value
+      : "event_date_desc";
 
     const filtered = state.allEvents.filter((event) => {
       const matchesSearch = !query || buildSearchText(event).includes(query);
@@ -214,7 +225,7 @@
   }
 
   async function loadEvents() {
-    const response = await fetch(`${dataRoot}/recent_events.json`);
+    const response = await fetch(recentEventsPath);
 
     if (!response.ok) {
       throw new Error(`Failed to load recent events: ${response.status}`);
@@ -241,7 +252,8 @@
   async function init() {
     try {
       if (elements.table) {
-        elements.table.innerHTML = `<div class="loading-state">Loading recent events…</div>`;
+        elements.table.innerHTML =
+          `<div class="loading-state">Loading recent events…</div>`;
       }
 
       state.allEvents = await loadEvents();
