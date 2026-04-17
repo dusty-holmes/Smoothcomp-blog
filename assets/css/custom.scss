@@ -88,3 +88,18 @@
 .screenshot img {
   image-rendering: -webkit-optimize-contrast;
 }
+
+@media (max-width: 1024px) and (orientation: landscape) {
+  #panel-wrapper,
+  .col-lg-3 {
+    display: none !important;
+  }
+
+  #main-wrapper,
+  .col-lg-9,
+  .col-xl-8 {
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+  }
+}
