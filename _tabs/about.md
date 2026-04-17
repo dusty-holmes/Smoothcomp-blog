@@ -2,7 +2,7 @@
 # the default layout is 'page'
 icon: fas fa-user
 title: About Me
-order: 3
+order: 8
 ---
 
 Hi — I’m Dusty.

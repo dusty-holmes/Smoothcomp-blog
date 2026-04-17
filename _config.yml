@@ -181,10 +181,21 @@ kramdown:
       line_numbers: true
       start_line: 1
 
+
 collections:
   tabs:
     output: true
     sort_by: order
+  dashboards:
+    output: true
+    permalink: /dashboards/:name/
+  rankings:
+    output: true
+    permalink: /rankings/:name/
+  methodology:
+    output: true
+    permalink: /methodology/:name/
+
 
 defaults:
   - scope:
@@ -207,6 +218,25 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: dashboards
+    values:
+      layout: page
+      toc: false
+  - scope:
+      path: ""
+      type: rankings
+    values:
+      layout: page
+      toc: false
+  - scope:
+      path: ""
+      type: methodology
+    values:
+      layout: page
+      toc: false
+
 
 sass:
   style: compressed
