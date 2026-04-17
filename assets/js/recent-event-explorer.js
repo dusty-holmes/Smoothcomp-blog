@@ -4,7 +4,8 @@
     config.recentEventsPath ||
     "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json";
   const eventSummaryBaseUrl =
-    config.eventSummaryBaseUrl || "/dashboards/event-summary/";
+    config.eventSummaryBaseUrl ||
+    "https://dusty-holmes.github.io/Smoothcomp-blog/dashboards/event-summary/";
 
   const elements = {
     table: document.getElementById("recent-events-table"),
@@ -48,9 +49,7 @@
   }
 
   function getEventDashboardUrl(eventId) {
-    const url = new URL(eventSummaryBaseUrl, window.location.href);
-    url.searchParams.set("event_id", eventId);
-    return url.toString();
+    return `${eventSummaryBaseUrl}?event_id=${encodeURIComponent(eventId)}`;
   }
 
   function buildSearchText(event) {
