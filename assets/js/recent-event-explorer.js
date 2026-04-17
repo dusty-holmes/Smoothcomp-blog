@@ -1,159 +1,265 @@
-const { dataRoot } = window.recentEventExplorerConfig;
+(function () {
+  const config = window.recentEventExplorerConfig || {};
+  const dataRoot = config.dataRoot || "/assets/data/recent_event_explorer";
+  const eventSummaryBaseUrl = config.eventSummaryBaseUrl || "/dashboards/event-summary/";
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadRecentEvents();
-});
+  const elements = {
+    table: document.getElementById("recent-events-table"),
+    search: document.getElementById("event-search"),
+    federationFilter: document.getElementById("event-federation-filter"),
+    sort: document.getElementById("event-sort"),
+    kpiEvents: document.getElementById("kpi-events"),
+    kpiMatches: document.getElementById("kpi-matches")
+  };
 
-async function loadRecentEvents() {
-  const response = await fetch(`${dataRoot}/recent_events.json`);
-  const data = await response.json();
-  renderRecentEventsTable(data);
-}
+  console.log("federation filter element:", elements.federationFilter);
 
-function renderRecentEventsTable(data) {
-  const container = document.getElementById("recent-events-table");
+  const state = {
+    allEvents: [],
+    filteredEvents: []
+  };
 
-  let html = `
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Event</th>
-          <th>Location</th>
-          <th>Matches</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  data.forEach(row => {
-    html += `
-      <tr data-event-id="${row.id}">
-        <td>${formatDate(row.date)}</td>
-        <td>${row.title}</td>
-        <td>${row.location ?? ""}</td>
-        <td>${row.match_count}</td>
-      </tr>
-    `;
-  });
-
-  html += `
-      </tbody>
-    </table>
-  `;
-
-  container.innerHTML = html;
-  attachRecentEventRowHandlers(data);
-}
-
-function attachRecentEventRowHandlers(data) {
-  const rows = document.querySelectorAll("#recent-events-table tbody tr");
-
-  rows.forEach(rowEl => {
-    rowEl.addEventListener("click", async () => {
-      rows.forEach(r => r.classList.remove("selected"));
-      rowEl.classList.add("selected");
-
-      const eventId = rowEl.dataset.eventId;
-      const selectedEvent = data.find(d => String(d.id) === String(eventId));
-
-      console.log("Selected event:", selectedEvent);
-
-      updateSelectedEventLabel(selectedEvent);
-      await loadEventSummary(eventId);
-
-      document.getElementById("event-summary-section").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  });
-}
-
-function updateSelectedEventLabel(eventRow) {
-  const label = document.getElementById("selected-event-label");
-
-  if (!eventRow) {
-    label.textContent = "Select an event above.";
-    return;
+  function formatInteger(value) {
+    const number = Number(value || 0);
+    if (!Number.isFinite(number)) return "—";
+    return number.toLocaleString("en-US");
   }
 
-  label.textContent = `${eventRow.title} - ${eventRow.location}`;
-}
+  function formatDate(value) {
+    if (!value) return "—";
 
-async function loadEventSummary(eventId) {
-  const container = document.getElementById("event-summary-table");
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
 
-  container.innerHTML = "<p>Loading event summary...</p>";
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric"
+    });
+  }
 
-  try {
-    const response = await fetch(`${dataRoot}/events/${eventId}_summary.json`);
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+  function getEventDashboardUrl(eventId) {
+    const url = new URL(eventSummaryBaseUrl, window.location.origin);
+    url.searchParams.set("event_id", eventId);
+    return url.pathname + url.search;
+  }
+
+  function buildSearchText(event) {
+    return [
+      event.title,
+      event.location,
+      event.federation,
+      formatDate(event.date)
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+  }
+
+  function updateKpis(events) {
+    const totals = events.reduce(
+      (acc, event) => {
+        acc.events += 1;
+        acc.matches += Number(event.match_count || 0);
+        return acc;
+      },
+      { events: 0, matches: 0 }
+    );
+
+    if (elements.kpiEvents) {
+      elements.kpiEvents.textContent = formatInteger(totals.events);
     }
 
-    const data = await response.json();
-    renderEventSummaryTable(data);
-  } catch (error) {
-    console.error("Failed to load event summary:", error);
-    container.innerHTML = "<p>Unable to load event summary for this event.</p>";
-  }
-}
-
-function renderEventSummaryTable(data) {
-  const container = document.getElementById("event-summary-table");
-
-  if (!data || data.length === 0) {
-    container.innerHTML = "<p>No club summary data found for this event.</p>";
-    return;
+    if (elements.kpiMatches) {
+      elements.kpiMatches.textContent = formatInteger(totals.matches);
+    }
   }
 
-  let html = `
-  <div class="table-scroll">
-    <table>
-      <thead>
-        <tr>
-          <th>Club</th>
-          <th>Athletes</th>
-          <th>Match<br>Count</th>
-          <th>Sub<br>Wins</th>
-          <th>Dec<br>Wins</th>
-          <th>Dec<br>Losses</th>
-          <th>Sub<br>Losses</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+  function sortEvents(events, sortValue) {
+    const sorted = [...events];
 
-  data.forEach(row => {
-    html += `
-      <tr>
-        <td>${row.club ?? ""}</td>
-        <td>${row.athlete_count ?? ""}</td>
-        <td>${row.match_count ?? ""}</td>
-        <td>${row.submission_wins ?? ""}</td>
-        <td>${row.decision_wins ?? ""}</td>
-        <td>${row.decision_losses ?? ""}</td>
-        <td>${row.submission_losses ?? ""}</td>
-        <td>${row.score ?? ""}</td>
-      </tr>
+    sorted.sort((a, b) => {
+      switch (sortValue) {
+        case "event_date_asc":
+          return new Date(a.date) - new Date(b.date);
+
+        case "matches_desc":
+          return Number(b.match_count || 0) - Number(a.match_count || 0);
+
+        case "event_name_asc":
+          return String(a.title || "").localeCompare(String(b.title || ""));
+
+        case "event_date_desc":
+        default:
+          return new Date(b.date) - new Date(a.date);
+      }
+    });
+
+    return sorted;
+  }
+
+  function populateFederationFilter(events) {
+    if (!elements.federationFilter) return;
+
+    const previousValue = elements.federationFilter.value || "all";
+
+    const federations = [...new Set(
+      events
+        .map((event) => (event.federation || "").trim())
+        .filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b));
+
+    elements.federationFilter.innerHTML = `
+      <option value="all">All</option>
+      ${federations
+        .map((federation) => `
+          <option value="${escapeHtml(federation)}">
+            ${escapeHtml(federation.toUpperCase())}
+          </option>
+        `)
+        .join("")}
     `;
-  });
 
-  html += `
-      </tbody>
-    </table>
-  `;
+    const stillExists = federations.some(
+      (federation) => federation === previousValue
+    );
 
-  container.innerHTML = html;
-}
+    elements.federationFilter.value = stillExists ? previousValue : "all";
+  }
 
-function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("en-US", {
-    month: "2-digit",
-    day: "2-digit"
-  });
-}
+  function renderTable() {
+    if (!elements.table) return;
+
+    if (!state.filteredEvents.length) {
+      elements.table.innerHTML = `
+        <div class="empty-state">
+          No events matched your filters.
+        </div>
+      `;
+      return;
+    }
+
+    const rowsHtml = state.filteredEvents
+      .map((event) => {
+        const eventUrl = getEventDashboardUrl(event.id);
+
+        return `
+          <tr>
+            <td class="date-cell">${escapeHtml(formatDate(event.date))}</td>
+              <td class="event-name-cell">
+                <a class="event-link cell-ellipsis"
+                  href="${eventUrl}"
+                  title="${escapeHtml(event.title || "Unnamed Event")}">
+                  ${escapeHtml(event.title || "Unnamed Event")}
+                </a>
+              </td>
+            <td class="location-cell">
+              <span class="cell-ellipsis" title="${escapeHtml(event.location || "—")}">
+                ${escapeHtml(event.location || "—")}
+              </span>
+            </td>
+            <td class="federation-cell">
+              ${escapeHtml(String(event.federation || "—").toUpperCase())}
+            </td>
+            <td class="numeric matches-cell">${formatInteger(event.match_count)}</td>
+          </tr>
+        `;
+      })
+      .join("");
+
+    elements.table.innerHTML = `
+      <div class="table-wrap">
+        <table class="dashboard-table dashboard-table--recent-events">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Event</th>
+              <th>Location</th>
+              <th>Federation</th>
+              <th class="numeric">Matches</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function filterEvents() {
+    const query = elements.search ? (elements.search.value || "").trim().toLowerCase() : "";
+    const federationValue = elements.federationFilter ? elements.federationFilter.value : "all";
+    const sortValue = elements.sort ? elements.sort.value : "event_date_desc";
+
+    const filtered = state.allEvents.filter((event) => {
+      const matchesSearch = !query || buildSearchText(event).includes(query);
+      const matchesFederation =
+        federationValue === "all" || (event.federation || "") === federationValue;
+
+      return matchesSearch && matchesFederation;
+    });
+
+    state.filteredEvents = sortEvents(filtered, sortValue);
+    updateKpis(state.filteredEvents);
+    renderTable();
+  }
+
+  async function loadEvents() {
+    const response = await fetch(`${dataRoot}/recent_events.json`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to load recent events: ${response.status}`);
+    }
+
+    const payload = await response.json();
+    return Array.isArray(payload) ? payload : [];
+  }
+
+  function bindControls() {
+    if (elements.search) {
+      elements.search.addEventListener("input", filterEvents);
+    }
+
+    if (elements.federationFilter) {
+      elements.federationFilter.addEventListener("change", filterEvents);
+    }
+
+    if (elements.sort) {
+      elements.sort.addEventListener("change", filterEvents);
+    }
+  }
+
+  async function init() {
+    try {
+      if (elements.table) {
+        elements.table.innerHTML = `<div class="loading-state">Loading recent events…</div>`;
+      }
+
+      state.allEvents = await loadEvents();
+      populateFederationFilter(state.allEvents);
+      bindControls();
+      filterEvents();
+    } catch (error) {
+      console.error(error);
+
+      if (elements.table) {
+        elements.table.innerHTML = `
+          <div class="empty-state">
+            Could not load recent events.
+          </div>
+        `;
+      }
+    }
+  }
+
+  init();
+})();
