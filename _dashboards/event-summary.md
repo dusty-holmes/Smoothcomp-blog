@@ -32,7 +32,7 @@ toc: false
 
 <script>
   window.eventSummaryConfig = {
-    recentEventsPath: "{{ '/assets/data/recent_event_explorer/recent_events.json' | relative_url }}",
+    recentEventsPath: "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json",
     eventSummaryRoot: "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/event-summary/",
     clubSummaryPath: "{{ '/dashboards/club-summary/' | relative_url }}"
   };

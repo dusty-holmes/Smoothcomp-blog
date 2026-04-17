@@ -48,9 +48,9 @@
   }
 
   function getEventDashboardUrl(eventId) {
-    const url = new URL(eventSummaryBaseUrl, window.location.origin);
+    const url = new URL(eventSummaryBaseUrl, window.location.href);
     url.searchParams.set("event_id", eventId);
-    return url.pathname + url.search;
+    return url.toString();
   }
 
   function buildSearchText(event) {
