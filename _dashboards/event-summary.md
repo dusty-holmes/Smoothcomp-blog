@@ -38,4 +38,11 @@ toc: false
   };
 </script>
 
+<script>
+  console.log("innerWidth:", window.innerWidth);
+  console.log("innerHeight:", window.innerHeight);
+  console.log("landscape:", window.matchMedia("(orientation: landscape)").matches);
+  console.log("max-width 900:", window.matchMedia("(max-width: 900px)").matches);
+  console.log("max-height 500:", window.matchMedia("(max-height: 500px)").matches);
+</script>
 <script src="{{ '/assets/js/event-summary.js' | relative_url }}"></script>

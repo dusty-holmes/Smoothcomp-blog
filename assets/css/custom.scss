@@ -89,21 +89,20 @@
   image-rendering: -webkit-optimize-contrast;
 }
 
-@media (max-width: 1024px) and (orientation: landscape) {
-  aside[aria-label="Panel"],
-  #panel-wrapper,
-  .panel-wrapper,
-  .col-lg-3 {
+/* Example: force-hide sidebar on small screens OR landscape phones */
+@media (max-width: 900px), (max-height: 500px) {
+  #sidebar,
+  .sidebar,
+  aside#sidebar {
     display: none !important;
   }
 
-  #main-wrapper,
-  main,
-  .col-lg-9,
-  .col-xl-8,
-  .col-12 {
+  #main,
+  .main,
+  .content,
+  .page {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
     width: 100% !important;
-    max-width: 100% !important;
-    flex: 0 0 100% !important;
   }
 }

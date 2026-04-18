@@ -3,9 +3,13 @@
   const recentEventsPath =
     config.recentEventsPath ||
     "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json";
-  const eventSummaryBaseUrl =
-    config.eventSummaryBaseUrl ||
-    "https://dusty-holmes.github.io/Smoothcomp-blog/dashboards/event-summary/";
+
+  const baseurl = config.baseurl || "";
+  const eventSummaryBaseUrl = config.eventSummaryBaseUrl || `${baseurl}/dashboards/event-summary/`;
+
+  console.log("recentEventExplorerConfig:", config);
+  console.log("baseurl:", baseurl);
+  console.log("eventSummaryBaseURL:", eventSummaryBaseUrl);
 
   const elements = {
     table: document.getElementById("recent-events-table"),

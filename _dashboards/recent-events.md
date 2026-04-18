@@ -66,8 +66,9 @@ toc: false
 
 <script>
   window.recentEventExplorerConfig = {
+    baseurl: "{{ site.baseurl }}",
     recentEventsPath: "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json",
-    eventSummaryBaseUrl: "https://dusty-holmes.github.io/Smoothcomp-blog/dashboards/event-summary/"
+    eventSummaryBaseUrl: "{{ '/dashboards/event-summary/' | relative_url }}"
   };
 </script>
 
