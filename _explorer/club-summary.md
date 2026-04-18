@@ -1,7 +1,7 @@
 ---
-layout: dashboard-page
+layout: explorer-page
 title: "Club Summary"
-permalink: /dashboards/club-summary/
+permalink: /explorer/club-summary/
 description: Club-level competitor summary table for a selected club.
 toc: false
 ---
@@ -10,13 +10,13 @@ toc: false
 
 <section class="club-summary-page">
   <div class="club-summary-topbar">
-    <a class="back-link" href="{{ '/dashboards/recent-events/' | relative_url }}">
+    <a class="back-link" href="{{ '/explorer/recent-events/' | relative_url }}">
       ← Back to Recent Events
     </a>
   </div>
 
   <header class="club-summary-header">
-    <p class="club-summary-kicker">Dashboards</p>
+    <p class="club-summary-kicker">Explorer</p>
     <h1 id="club-summary-title" class="club-summary-title">Club Summary</h1>
     <p id="club-summary-subtitle" class="club-summary-subtitle">
       Loading selected club...
@@ -31,7 +31,7 @@ toc: false
 <script>
   window.clubSummaryConfig = {
     clubSummaryRoot: "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/club-summary/",
-    eventSummaryPath: "{{ '/dashboards/event-summary/' | relative_url }}"
+    eventSummaryPath: "{{ '/explorer/event-summary/' | relative_url }}"
   };
 </script>
 

@@ -5,7 +5,7 @@
     "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json";
 
   const baseurl = config.baseurl || "";
-  const eventSummaryBaseUrl = config.eventSummaryBaseUrl || `${baseurl}/dashboards/event-summary/`;
+  const eventSummaryBaseUrl = config.eventSummaryBaseUrl || `${baseurl}/explorer/event-summary/`;
 
   console.log("recentEventExplorerConfig:", config);
   console.log("baseurl:", baseurl);
@@ -52,7 +52,7 @@
       .replaceAll("'", "&#039;");
   }
 
-  function getEventDashboardUrl(eventId) {
+  function getEventExplorerUrl(eventId) {
     return `${eventSummaryBaseUrl}?event_id=${encodeURIComponent(eventId)}`;
   }
 
@@ -157,7 +157,7 @@
 
     const rowsHtml = state.filteredEvents
       .map((event) => {
-        const eventUrl = getEventDashboardUrl(event.id);
+        const eventUrl = getEventExplorerUrl(event.id);
 
         return `
           <tr>
@@ -185,7 +185,7 @@
 
     elements.table.innerHTML = `
       <div class="table-wrap">
-        <table class="dashboard-table dashboard-table--recent-events">
+        <table class="explorer-table explorer-table--recent-events">
           <thead>
             <tr>
               <th>Date</th>

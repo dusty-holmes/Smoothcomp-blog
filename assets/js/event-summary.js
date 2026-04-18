@@ -7,6 +7,8 @@
     config.recentEventsPath ||
     "/assets/data/recent_event_explorer/recent_events.json";
   const clubSummaryPath = config.clubSummaryPath || "/dashboards/club-summary/";
+  const eventSummaryPagePath = config.eventSummaryPagePath || "/explorer/event-summary/";
+  const selector = document.getElementById("event-selector");
 
   const elements = {
     title: document.getElementById("event-summary-title"),
@@ -28,6 +30,28 @@
     const number = Number(value || 0);
     if (!Number.isFinite(number)) return "—";
     return number.toLocaleString("en-US");
+  }
+
+  function getEventIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("event_id");
+  }
+
+  function buildEventSummaryPageUrl(eventId) {
+    const base = config.eventSummaryPagePath || "/explorer/event-summary/";
+    return `${base}?event_id=${encodeURIComponent(eventId)}`;
+  }
+
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    const d = new Date(dateString);
+    if (isNaN(d)) return dateString;
+
+    return d.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    });
   }
 
   function getEventId() {
@@ -252,6 +276,64 @@
       clubSummaries: Array.isArray(payload?.club_summaries) ? payload.club_summaries : []
     };
   }
+
+  async function loadEventList() {
+    const res = await fetch(config.recentEventsPath);
+    if (!res.ok) {
+      throw new Error(`Failed to load events: ${res.status}`);
+    }
+    return res.json();
+  }
+
+  function populateEventSelector(events, selectedEventId) {
+    if (!selector) return;
+
+    // reset options
+    selector.innerHTML = `<option value="">Choose an event</option>`;
+
+    events.forEach(event => {
+      const option = document.createElement("option");
+
+      option.value = String(event.id);
+
+      // user-friendly label
+      option.textContent = `${event.title} — ${formatDate(event.date)}`;
+
+      if (String(event.id) === String(selectedEventId)) {
+        option.selected = true;
+      }
+
+      selector.appendChild(option);
+    });
+  }
+
+  function wireSelectorChange() {
+    if (!selector) return;
+
+    selector.addEventListener("change", () => {
+      const eventId = selector.value;
+
+      if (!eventId) return;
+
+      // reload page with new event_id
+      window.location.href = buildEventSummaryPageUrl(eventId);
+    });
+  }
+
+  async function initEventSelector() {
+    try {
+      const events = await loadEventList();
+      const currentEventId = getEventIdFromUrl();
+
+      populateEventSelector(events, currentEventId);
+      wireSelectorChange();
+
+    } catch (err) {
+      console.error("Failed to initialize event selector:", err);
+    }
+  }
+
+  initEventSelector();
 
   async function init() {
     const eventId = getEventId();

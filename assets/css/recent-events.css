@@ -1,17 +1,17 @@
-.dashboard-page {
+.explorer-page {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.dashboard-header {
+.explorer-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
 }
 
-.dashboard-kicker {
+.explorer-kicker {
   margin: 0 0 0.25rem;
   font-size: 0.82rem;
   font-weight: 700;
@@ -20,11 +20,11 @@
   color: var(--text-muted-color);
 }
 
-.dashboard-title {
+.explorer-title {
   margin: 0;
 }
 
-.dashboard-description {
+.explorer-description {
   margin: 0.5rem 0 0;
   max-width: 60ch;
   color: var(--text-muted-color);
@@ -41,7 +41,7 @@
 }
 
 .kpi-card,
-.dashboard-panel {
+.explorer-panel {
   background: var(--card-bg);
   border: 1px solid var(--main-border-color);
   border-radius: 1rem;
@@ -64,7 +64,7 @@
   line-height: 1.1;
 }
 
-.dashboard-panel {
+.explorer-panel {
   padding: 1rem;
 }
 
@@ -124,12 +124,12 @@
   overflow-x: auto;
 }
 
-.dashboard-table {
+.explorer-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.dashboard-table thead th {
+.explorer-table thead th {
   padding: 0.45rem 0.55rem;
   border-bottom: 1px solid var(--main-border-color);
   text-align: left;
@@ -140,7 +140,7 @@
   line-height: 1.1;
 }
 
-.dashboard-table tbody td {
+.explorer-table tbody td {
   padding: 0.38rem 0.55rem;
   border-top: 1px solid var(--main-border-color);
   vertical-align: middle;
@@ -149,46 +149,46 @@
   line-height: 1.1;
 }
 
-.dashboard-table tbody tr {
+.explorer-table tbody tr {
   transition: background-color 0.15s ease;
 }
 
-.dashboard-table tbody tr:hover {
+.explorer-table tbody tr:hover {
   background: var(--tb-hover-bg, rgb(0 0 0 / 0.03));
 }
 
-.dashboard-table--recent-events {
+.explorer-table--recent-events {
   table-layout: fixed;
   width: 100%;
 }
 
 /* Date */
-.dashboard-table--recent-events th:nth-child(1),
-.dashboard-table--recent-events td:nth-child(1) {
+.explorer-table--recent-events th:nth-child(1),
+.explorer-table--recent-events td:nth-child(1) {
   width: 50px;
 }
 
 /* Event */
-.dashboard-table--recent-events th:nth-child(2),
-.dashboard-table--recent-events td:nth-child(2) {
+.explorer-table--recent-events th:nth-child(2),
+.explorer-table--recent-events td:nth-child(2) {
   width: 38%;
 }
 
 /* location */
-.dashboard-table--recent-events th:nth-child(3),
-.dashboard-table--recent-events td:nth-child(3) {
+.explorer-table--recent-events th:nth-child(3),
+.explorer-table--recent-events td:nth-child(3) {
   width: 25%;
 }
 
 /* Federation */
-.dashboard-table--recent-events th:nth-child(4),
-.dashboard-table--recent-events td:nth-child(4) {
+.explorer-table--recent-events th:nth-child(4),
+.explorer-table--recent-events td:nth-child(4) {
   width: 130px;
 }
 
 /* Matches */
-.dashboard-table--recent-events th:nth-child(5),
-.dashboard-table--recent-events td:nth-child(5) {
+.explorer-table--recent-events th:nth-child(5),
+.explorer-table--recent-events td:nth-child(5) {
   width: 70px;
   text-align: right;
 }

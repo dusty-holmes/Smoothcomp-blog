@@ -1,19 +1,19 @@
 ---
-layout: dashboard-page
+layout: explorer-page
 title: "Explore Recent Events"
-permalink: /dashboards/recent-events/
-description: Browse recent tournaments from the last 3 months and open a dedicated event dashboard.
+permalink: /explorer/recent-events/
+description: Browse recent tournaments from the last 3 months and open a dedicated event explorer.
 toc: false
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/recent-event-explorer.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/recent-events.css' | relative_url }}">
 
-<section class="dashboard-page">
-  <div class="dashboard-header">
+<section class="explorer-page">
+  <div class="explorer-header">
     <div>
-      <p class="dashboard-kicker">Dashboards</p>
-      <h1 class="dashboard-title">{{ page.title }}</h1>
-      <p class="dashboard-description">
+      <p class="explorer-kicker">Explorer</p>
+      <h1 class="explorer-title">{{ page.title }}</h1>
+      <p class="explorer-description">
       </p>
     </div>
   </div>
@@ -30,7 +30,7 @@ toc: false
     </article>
   </section>
 
-  <section class="dashboard-panel">
+  <section class="explorer-panel">
     <div class="panel-header">
       <div class="table-controls">
         <label class="search-control">
@@ -66,10 +66,9 @@ toc: false
 
 <script>
   window.recentEventExplorerConfig = {
-    baseurl: "{{ site.baseurl }}",
     recentEventsPath: "https://smoothcomp-data.s3.us-east-2.amazonaws.com/Summary-Pages/recent-events/recent_events.json",
-    eventSummaryBaseUrl: "{{ '/dashboards/event-summary/' | relative_url }}"
+    eventSummaryBaseUrl: "{{ '/explorer/event-summary/' | relative_url }}"
   };
 </script>
 
-<script src="{{ '/assets/js/recent-event-explorer.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/recent-events.js' | relative_url }}"></script>
