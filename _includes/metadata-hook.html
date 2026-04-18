@@ -1,0 +1,12 @@
+<script>
+  (function () {
+    try {
+      const saved = localStorage.getItem("sidebar-collapsed");
+      if (saved === "true") {
+        document.documentElement.classList.add("sidebar-collapsed");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<script src="{{ '/assets/js/sidebar-toggle.js' | relative_url }}" defer></script>

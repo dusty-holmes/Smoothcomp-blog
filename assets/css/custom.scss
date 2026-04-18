@@ -5,7 +5,6 @@
    IMAGE STYLING FOR POSTS
    ============================== */
 
-
 /* Center figures */
 .post-content figure,
 .image-center {
@@ -26,7 +25,7 @@
 .image-center img {
   border: 1px solid #ccc;
   border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   padding: 2px;
 }
 
@@ -62,14 +61,11 @@
   margin: 0 auto;
   max-width: 100%;
   height: auto;
-
   border: 1px solid #dcdcdc;
   border-radius: 8px;
-
   box-shadow:
-    0 4px 12px rgba(0,0,0,0.08),
-    0 1px 3px rgba(0,0,0,0.06);
-
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.06);
   background: white;
 }
 
@@ -89,22 +85,79 @@
   image-rendering: -webkit-optimize-contrast;
 }
 
-/* Example: force-hide sidebar on small screens OR landscape phones */
-@media (max-width: 900px), (max-height: 500px) {
-  #sidebar,
-  .sidebar,
-  aside#sidebar {
-    display: none !important;
+
+/* ==============================
+   SIDEBAR TOGGLE
+   ============================== */
+
+/* Keep topbar above page content */
+#topbar-wrapper,
+#topbar {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Keep page content below the topbar */
+#main-wrapper {
+  position: relative;
+  z-index: 1;
+  transition: margin-left 0.25s ease;
+}
+
+/* Sidebar animation */
+#sidebar {
+  transition: transform 0.25s ease;
+  z-index: 1050;
+}
+
+/* Keep trigger visible and clickable */
+#sidebar-trigger {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  position: fixed !important;
+  top: 1rem !important;
+  left: 17% !important;
+  z-index: 9999 !important;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 0.5rem;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #202020 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+/* Dark mode contrast */
+html[data-mode="dark"] #sidebar-trigger,
+[data-mode="dark"] #sidebar-trigger {
+  color: #fff !important;
+  background: rgba(30, 30, 30, 0.95) !important;
+}
+
+/* Collapsed state */
+html.sidebar-collapsed #sidebar,
+body.sidebar-collapsed #sidebar {
+  transform: translateX(-100%);
+}
+
+html.sidebar-collapsed #main-wrapper,
+body.sidebar-collapsed #main-wrapper {
+  margin-left: 0 !important;
+}
+
+/* Mobile/tablet */
+@media (max-width: 991.98px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
   }
 
-  #main-wrapper,
-  #main,
-  .main,
-  .content,
-  .page {
+  #main-wrapper {
     margin-left: 0 !important;
-    padding-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
   }
 }
